@@ -11,8 +11,9 @@
 		</Console>
 	</appenders>
 	<loggers>
-        <logger name="org.springframework" level="INFO" additivity="false"/>
-		<root level="info">
+        <logger name="org.springframework" level="info" additivity="false"/>
+        <logger name="org.fan.demo.dynamic.dao" level="debug" additivity="false"/>
+		<root level="debug">
 			<appender-ref ref="Console"/>
 		</root>
 	</loggers>
