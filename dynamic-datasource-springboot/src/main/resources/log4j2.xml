@@ -7,13 +7,21 @@
 			<!--<PatternLayout charset="UTF-8"
 			               pattern="%highlight{%d{HH:mm:ss,SSS} }{FATAL=Bright Red, ERROR=Bright Magenta, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White}"/>-->
 			<PatternLayout charset="UTF-8"
-			               pattern="%style{[%4sn]}{BG,Green} %highlight{%d -- %-5level--}{FATAL=Bright Red, ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White} %blue{[%T]-[%t]}  %style{%10.50c}{bright,cyan} : %msg%n%throwable"/>
+			               pattern="%style{[%4sn]}{BG,Green} %highlight{%d -- %-5level--}{FATAL=Bright Red, ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White} %blue{[%T]-[%t]}  %style{%c}{bright,cyan}[%L] : %msg%n%throwable"/>
 		</Console>
 	</appenders>
 	<loggers>
-        <logger name="org.springframework" level="info" additivity="false"/>
-        <logger name="org.fan.demo.dynamic.dao" level="debug" additivity="false"/>
-		<root level="debug">
+        <logger name="org.fan.demo.dynamic.dao" level="DEBUG" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+        <logger name="org.mybatis.spring.transaction" level="debug" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+        <logger name="org.springframework.jdbc.datasource" level="debug" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+        <logger name="druid.sql" level="info" additivity="false"/>
+		<root level="info">
 			<appender-ref ref="Console"/>
 		</root>
 	</loggers>

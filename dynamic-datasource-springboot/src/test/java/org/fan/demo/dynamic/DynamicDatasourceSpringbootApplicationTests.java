@@ -1,11 +1,9 @@
 package org.fan.demo.dynamic;
 
 import lombok.extern.slf4j.Slf4j;
-import org.fan.demo.dynamic.config.properties.DruidDataSourceProperties;
-import org.fan.demo.dynamic.config.properties.TestProperties;
 import org.fan.demo.dynamic.model.User;
 import org.fan.demo.dynamic.service.HelloService;
-import org.fan.demo.dynamic.service.HelloService2;
+import org.fan.demo.dynamic.service.impl.HelloServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -16,15 +14,20 @@ import java.util.List;
 @SpringBootTest
 class DynamicDatasourceSpringbootApplicationTests {
 
-    @Resource
-    private HelloService2 helloService2;
 
+    @Resource
+    private HelloServiceImpl helloService;
 
 
     @Test
-    public void testHelloService(){
-        List<User> users = helloService2.getUsers();
-        log.info("user is {}",users);
+    public void testHelloService() {
+        User user = new User();
+        user.setAddress("北京");
+        user.setName("jack");
+        int insert = helloService.insert(user);
+        log.info("primary key is {}",insert);
+        user.setId(null);
+        helloService.insert1(user);
     }
 
 }
