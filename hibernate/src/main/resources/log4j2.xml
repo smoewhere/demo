@@ -6,11 +6,19 @@
 			<!--<PatternLayout pattern="%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{-&#45;&#45;}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${%xwEx}" />-->
 			<!--<PatternLayout charset="UTF-8"
 			               pattern="%highlight{%d{HH:mm:ss,SSS} }{FATAL=Bright Red, ERROR=Bright Magenta, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White}"/>-->
-			<PatternLayout charset="UTF-8"
-			               pattern="%style{[%4sn]}{BG,Green} %highlight{%d -- %-5level--}{FATAL=Bright Red, ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White} %blue{[%T]-[%t]}  %style{%10.50c}{bright,cyan} : %msg%n%throwable"/>
+            <PatternLayout charset="UTF-8">
+                <Pattern>%style{[%4sn]}{BG,Green} %highlight{%d -- %-5level--}{FATAL=Bright Red, ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White} %blue{[%T]-[%t]}  %style{%c{1.}}{bright,cyan}: %msg%n%throwable</Pattern>
+            </PatternLayout>
 		</Console>
 	</appenders>
 	<loggers>
+		<logger level="TRACE" additivity="false">
+			<name>org.hibernate.type.descriptor.sql.BasicBinder</name>
+			<AppenderRef ref="Console"/>
+		</logger>
+		<logger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console"/>
+		</logger>
 		<root level="info">
 			<appender-ref ref="Console"/>
 		</root>
