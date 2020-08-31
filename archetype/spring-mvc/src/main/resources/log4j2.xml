@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="OFF" monitorInterval="30000">
   <Properties>
-    <property name="path">./logs</property>
+    <!--web项目中当前目录为tomcat等服务器的bin目录，可以自己改为工程目录-->
+    <property name="path">../logs</property>
     <property name="projectName">app</property>
   </Properties>
   <appenders>
