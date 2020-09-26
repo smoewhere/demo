@@ -1,4 +1,4 @@
-package org.fan.demo.controller
+package org.fan.demo.controller;
 
 public class ClockController {
 }
