@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="text1" prefHeight="598.0" prefWidth="871.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.fan.demo.controller.TimingController">
+   <children>
+      <TextArea id="text1" fx:id="text1" editable="false" layoutX="609.0" layoutY="99.0" prefHeight="449.0" prefWidth="200.0" promptText="记录时间" />
+      <TextField id="textHour" fx:id="textHour" alignment="CENTER" layoutX="65.0" layoutY="258.0" prefHeight="86.0" prefWidth="113.0" text="05">
+         <font>
+            <Font size="38.0" />
+         </font>
+      </TextField>
+      <TextField id="textMin" fx:id="textMin" alignment="CENTER" layoutX="249.0" layoutY="258.0" prefHeight="86.0" prefWidth="113.0" text="00">
+         <font>
+            <Font size="38.0" />
+         </font>
+      </TextField>
+      <TextField id="textSec" fx:id="textSec" alignment="CENTER" layoutX="416.0" layoutY="258.0" prefHeight="86.0" prefWidth="113.0" text="00">
+         <font>
+            <Font size="38.0" />
+         </font>
+      </TextField>
+      <Text layoutX="200.0" layoutY="316.0" strokeType="OUTSIDE" strokeWidth="0.0" text="：" wrappingWidth="12.0">
+         <font>
+            <Font size="46.0" />
+         </font>
+      </Text>
+      <Text layoutX="383.0" layoutY="318.0" strokeType="OUTSIDE" strokeWidth="0.0" text="：" wrappingWidth="12.0">
+         <font>
+            <Font size="46.0" />
+         </font>
+      </Text>
+      <ImageView fx:id="startImage" fitHeight="86.0" fitWidth="103.0" layoutX="112.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/开始.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="clearImage" fitHeight="86.0" fitWidth="103.0" layoutX="265.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/clear.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="soundImage" fitHeight="86.0" fitWidth="103.0" layoutX="416.0" layoutY="431.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/open.jpg" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
