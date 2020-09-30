@@ -34,7 +34,7 @@ public class JsonGroup extends Group {
     getChildren().addAll(origin, prefect, encode);
   }
 
-  public Scene createJsonScene() {
+  public Group createJsonGroup(){
     // 创建标题
     Text originText = new Text("原始数据");
     originText.setX(20);
@@ -57,7 +57,12 @@ public class JsonGroup extends Group {
     encode.setLayoutX(240);
     encode.setLayoutY(340);
     setListener();
-    return new Scene(this);
+    return this;
+  }
+
+  public Scene createJsonScene() {
+    Group group = createJsonGroup();
+    return new Scene(group);
   }
 
   private void setListener(){

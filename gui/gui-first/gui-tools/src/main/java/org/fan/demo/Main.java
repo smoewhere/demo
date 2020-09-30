@@ -1,22 +1,15 @@
 package org.fan.demo;
 
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventType;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
-import javafx.stage.Modality;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -24,6 +17,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * 初识Fx
+ *
  * @author Fan
  */
 public class Main extends Application {
@@ -45,7 +40,6 @@ public class Main extends Application {
     toolBar.getItems().addAll(btn1, btn2, btn3, btn4);
     toolBar.setPrefHeight(20);
     root.getChildren().add(toolBar);
-
     /*TextArea textArea = new TextArea();
     textArea.setPrefWidth(100);
     textArea.setPrefHeight(300);
@@ -54,18 +48,23 @@ public class Main extends Application {
     textArea.setLayoutY(40);
     root.getChildren().add(textArea);*/
 
+    Button btn5 = new Button();
+    btn5.setText("按钮5");
+    btn5.setLayoutX(100);
+    btn5.setLayoutY(100);
+    btn5.setFont(Font.font(20));
+    btn5.setStyle(
+        "-fx-background-color: linear-gradient(to right,#00fffc,#fff600);\n"
+            + "-fx-background-radius: 25;\n"
+            + "-fx-border-radius: 25;");
+    root.getChildren().add(btn5);
+    btn5.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+      if (event.getClickCount() == 2 && event.getButton().equals(MouseButton.PRIMARY)) {
+        System.out.println("双击事件");
+      }
+    });
     Scene scene = new Scene(root);
-    scene.widthProperty().addListener((observable, oldValue, newValue) -> {
-      toolBar.setPrefWidth(newValue.doubleValue());
-    });
-    btn1.setOnAction(event -> {
-      EventType<? extends ActionEvent> eventType = event.getEventType();
-      log.info("[Main.start] eventName:{}, eventSourceType:{}", eventType.getName(), eventType.getSuperType());
-      Stage stage = new Stage();
-      stage.initModality(Modality.APPLICATION_MODAL);
-      stage.setScene(scene);
-      stage.show();
-    });
+    scene.widthProperty().addListener((observable, oldValue, newValue) -> toolBar.setPrefWidth(newValue.doubleValue()));
     toolBar.setPrefWidth(scene.getWidth());
     primaryStage.setScene(scene);
     primaryStage.initStyle(StageStyle.DECORATED);
