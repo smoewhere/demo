@@ -51,5 +51,9 @@
             <Image url="@images/open.jpg" />
          </image>
       </ImageView>
+      <Label alignment="CENTER" layoutX="106.0" layoutY="108.0" prefHeight="102.0" prefWidth="397.0" text="Label">
+         <font>
+            <Font size="65.0" />
+         </font></Label>
    </children>
 </AnchorPane>
