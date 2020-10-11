@@ -64,6 +64,11 @@
       <artifactId>commons-lang3</artifactId>
       <version>3.4</version>
     </dependency>
+    <dependency>
+      <groupId>javazoom</groupId>
+      <artifactId>JLayer</artifactId>
+      <version>1.0.1</version>
+    </dependency>
   </dependencies>
 
   <build>
