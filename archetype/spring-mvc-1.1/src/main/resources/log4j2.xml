@@ -13,7 +13,7 @@
                      pattern="%highlight{%d{HH:mm:ss,SSS} }{FATAL=Bright Red, ERROR=Bright Magenta, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White}"/>-->
       <PatternLayout charset="UTF-8">
         <Pattern>
-          %style{[%4sn]}{BG,Green} %highlight{%d -- %-5level--}{FATAL=Bright Red, ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White} %blue{[%T]-[%t]} %style{%c{1.}}{bright,cyan}: %msg%n%throwable
+          [%4sn] %d -- %-5level-- [%T]-[%t] %c: %msg%n%throwable
         </Pattern>
       </PatternLayout>
     </Console>
@@ -40,8 +40,9 @@
     </RollingFile>
   </appenders>
   <loggers>
-    <logger name="org.springframework" level="info" additivity="false">
+    <logger name="org.springframework" level="debug" additivity="false">
       <AppenderRef ref="Console"/>
+      <appender-ref ref="DEBUG_ROLLING"/>
     </logger>
     <root level="debug">
       <appender-ref ref="Console"/>
