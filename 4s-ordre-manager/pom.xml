@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.fan.demo</groupId>
+  <artifactId>4s-ordre-manager</artifactId>
+  <version>1.0</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <mysql.driver.version>8.0.21</mysql.driver.version>
+    <mybatisplus.version>3.4.0</mybatisplus.version>
+    <druid.version>1.2.1</druid.version>
+    <oshi.version>3.6.1</oshi.version>
+    <mysql.driver.version>8.0.13</mysql.driver.version>
+    <commons.beanutils.version>1.8.0</commons.beanutils.version>
+    <commons.collections.version>3.2.2</commons.collections.version>
+    <org.apache.commons.codec.version>1.8</org.apache.commons.codec.version>
+    <bcprov.jdk16.version>1.46</bcprov.jdk16.version>
+  </properties>
+
+  <modules>
+    <module>manager-common</module>
+    <module>manager-sys</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.4.RELEASE</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <!--获取os信息-->
+      <dependency>
+        <groupId>com.github.oshi</groupId>
+        <artifactId>oshi-json</artifactId>
+        <version>${oshi.version}</version>
+      </dependency>
+      <!--提供更多的加密、填充方式-->
+      <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk16</artifactId>
+        <version>${bcprov.jdk16.version}</version>
+      </dependency>
+      <!-- Base64编码需要  -->
+      <dependency>
+        <groupId>org.apache.directory.studio</groupId>
+        <artifactId>org.apache.commons.codec</artifactId>
+        <version>${org.apache.commons.codec.version}</version>
+      </dependency>
+      <!--添加MySQL驱动依赖 -->
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>${mysql.driver.version}</version>
+      </dependency>
+      <!-- CopyUtil需要用到 -->
+      <dependency>
+        <groupId>commons-beanutils</groupId>
+        <artifactId>commons-beanutils</artifactId>
+        <version>${commons.beanutils.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+        <version>${commons.collections.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <configuration>
+            <finalName>${project.artifactId}</finalName>
+            <outputDirectory>../package</outputDirectory>
+          </configuration>
+        </plugin>
+        <!-- 跳过启动测试 -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+            <skipTests>true</skipTests>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+
+</project>
