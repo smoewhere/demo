@@ -2,6 +2,11 @@ package cn.huanzi.qch.baseadmin.config.security;
 
 import cn.huanzi.qch.baseadmin.sys.sysauthority.service.SysAuthorityService;
 import cn.huanzi.qch.baseadmin.sys.sysauthority.vo.SysAuthorityVo;
+import java.io.IOException;
+import javax.annotation.Resource;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.access.AccessDecisionVoter;
@@ -10,6 +15,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -25,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CaptchaFilterConfig captchaFilterConfig;
 
-    @Autowired
+    @Resource
     private UserConfig userConfig;
 
     @Autowired
@@ -112,6 +119,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .tokenRepository(persistentTokenRepository())
                 .userDetailsService(userConfig)
                 .and();
+
+        // 自定义权限验证失败处理，默认是LoginUrlAuthenticationEntryPoint,当鉴权失败时，调用forward转发到loginPage
+        // 可以自定义解析，转为json返回前端或者不自定义，在接口中定义返回
+        http.exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
+            @Override
+            public void commence(HttpServletRequest request, HttpServletResponse response,
+                AuthenticationException authException) throws IOException, ServletException {
+
+            }
+        });
     }
 
     @Bean

@@ -5,6 +5,7 @@ import cn.huanzi.qch.baseadmin.sys.sysuser.vo.SysUserVo;
 import cn.huanzi.qch.baseadmin.util.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import javax.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,9 @@ public class LoginSuccessHandlerConfig implements AuthenticationSuccessHandler {
 
     @Autowired
     private DataSource dataSource;
+
+    @Resource
+    private PersistentTokenRepository persistentTokenRepository1;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
@@ -96,7 +100,7 @@ public class LoginSuccessHandlerConfig implements AuthenticationSuccessHandler {
             SecurityContextHolder.clearContext();
 
             //清除remember-me持久化tokens
-            persistentTokenRepository1().removeUserTokens(user.getUsername());
+            persistentTokenRepository1.removeUserTokens(user.getUsername());
         }
         else{
             //校验通过，注册session
