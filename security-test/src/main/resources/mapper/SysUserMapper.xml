@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fan.teat.security.mapper.SysUserMapper">
+  <resultMap id="BaseResultMap" type="org.fan.teat.security.model.SysUser">
+    <!--@mbg.generated-->
+    <!--@Table sys_user-->
+    <id column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="login_name" jdbcType="VARCHAR" property="loginName" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="valid" jdbcType="CHAR" property="valid" />
+    <result column="limited_ip" jdbcType="VARCHAR" property="limitedIp" />
+    <result column="expired_time" jdbcType="TIMESTAMP" property="expiredTime" />
+    <result column="last_change_pwd_time" jdbcType="TIMESTAMP" property="lastChangePwdTime" />
+    <result column="limit_multi_login" jdbcType="CHAR" property="limitMultiLogin" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    user_id, login_name, user_name, `password`, `valid`, limited_ip, expired_time, last_change_pwd_time, 
+    limit_multi_login, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from sys_user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="org.fan.teat.security.model.SysUser">
+    <!--@mbg.generated-->
+    insert into sys_user (user_id, login_name, user_name, 
+      `password`, `valid`, limited_ip, 
+      expired_time, last_change_pwd_time, limit_multi_login, 
+      create_time, update_time)
+    values (#{userId,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{valid,jdbcType=CHAR}, #{limitedIp,jdbcType=VARCHAR}, 
+      #{expiredTime,jdbcType=TIMESTAMP}, #{lastChangePwdTime,jdbcType=TIMESTAMP}, #{limitMultiLogin,jdbcType=CHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="org.fan.teat.security.model.SysUser">
+    <!--@mbg.generated-->
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="loginName != null">
+        login_name,
+      </if>
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="valid != null">
+        `valid`,
+      </if>
+      <if test="limitedIp != null">
+        limited_ip,
+      </if>
+      <if test="expiredTime != null">
+        expired_time,
+      </if>
+      <if test="lastChangePwdTime != null">
+        last_change_pwd_time,
+      </if>
+      <if test="limitMultiLogin != null">
+        limit_multi_login,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginName != null">
+        #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        #{valid,jdbcType=CHAR},
+      </if>
+      <if test="limitedIp != null">
+        #{limitedIp,jdbcType=VARCHAR},
+      </if>
+      <if test="expiredTime != null">
+        #{expiredTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastChangePwdTime != null">
+        #{lastChangePwdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitMultiLogin != null">
+        #{limitMultiLogin,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="org.fan.teat.security.model.SysUser">
+    <!--@mbg.generated-->
+    update sys_user
+    <set>
+      <if test="loginName != null">
+        login_name = #{loginName,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null">
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null">
+        `valid` = #{valid,jdbcType=CHAR},
+      </if>
+      <if test="limitedIp != null">
+        limited_ip = #{limitedIp,jdbcType=VARCHAR},
+      </if>
+      <if test="expiredTime != null">
+        expired_time = #{expiredTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastChangePwdTime != null">
+        last_change_pwd_time = #{lastChangePwdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="limitMultiLogin != null">
+        limit_multi_login = #{limitMultiLogin,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.fan.teat.security.model.SysUser">
+    <!--@mbg.generated-->
+    update sys_user
+    set login_name = #{loginName,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      `valid` = #{valid,jdbcType=CHAR},
+      limited_ip = #{limitedIp,jdbcType=VARCHAR},
+      expired_time = #{expiredTime,jdbcType=TIMESTAMP},
+      last_change_pwd_time = #{lastChangePwdTime,jdbcType=TIMESTAMP},
+      limit_multi_login = #{limitMultiLogin,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAll" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List"/>
+    from sys_user
+  </select>
+  <select id="selectAllByLoginName" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List"/>
+    from sys_user
+    where login_name=#{loginName,jdbcType=VARCHAR}
+  </select>
+  <update id="updateBatch" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_user
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="login_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.loginName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="user_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.userName,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`password` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.password,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="`valid` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.valid,jdbcType=CHAR}
+        </foreach>
+      </trim>
+      <trim prefix="limited_ip = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.limitedIp,jdbcType=VARCHAR}
+        </foreach>
+      </trim>
+      <trim prefix="expired_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.expiredTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="last_change_pwd_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.lastChangePwdTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="limit_multi_login = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.limitMultiLogin,jdbcType=CHAR}
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.createTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.updateTime,jdbcType=TIMESTAMP}
+        </foreach>
+      </trim>
+    </trim>
+    where user_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.userId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <update id="updateBatchSelective" parameterType="java.util.List">
+    <!--@mbg.generated-->
+    update sys_user
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="login_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.loginName != null">
+            when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.loginName,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="user_name = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.userName != null">
+            when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.userName,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`password` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.password != null">
+            when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.password,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="`valid` = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.valid != null">
+            when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.valid,jdbcType=CHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="limited_ip = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.limitedIp != null">
+            when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.limitedIp,jdbcType=VARCHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="expired_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.expiredTime != null">
+            when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.expiredTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="last_change_pwd_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.lastChangePwdTime != null">
+            when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.lastChangePwdTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="limit_multi_login = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.limitMultiLogin != null">
+            when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.limitMultiLogin,jdbcType=CHAR}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="create_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.createTime != null">
+            when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.createTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="update_time = case" suffix="end,">
+        <foreach collection="list" index="index" item="item">
+          <if test="item.updateTime != null">
+            when user_id = #{item.userId,jdbcType=VARCHAR} then #{item.updateTime,jdbcType=TIMESTAMP}
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where user_id in
+    <foreach close=")" collection="list" item="item" open="(" separator=", ">
+      #{item.userId,jdbcType=VARCHAR}
+    </foreach>
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into sys_user
+    (user_id, login_name, user_name, `password`, `valid`, limited_ip, expired_time, last_change_pwd_time, 
+      limit_multi_login, create_time, update_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.userId,jdbcType=VARCHAR}, #{item.loginName,jdbcType=VARCHAR}, #{item.userName,jdbcType=VARCHAR}, 
+        #{item.password,jdbcType=VARCHAR}, #{item.valid,jdbcType=CHAR}, #{item.limitedIp,jdbcType=VARCHAR}, 
+        #{item.expiredTime,jdbcType=TIMESTAMP}, #{item.lastChangePwdTime,jdbcType=TIMESTAMP}, 
+        #{item.limitMultiLogin,jdbcType=CHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}
+        )
+    </foreach>
+  </insert>
+</mapper>
