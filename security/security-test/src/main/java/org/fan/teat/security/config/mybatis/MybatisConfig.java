@@ -22,7 +22,7 @@ public class MybatisConfig {
   @Bean
   public DataSource dataSource(){
     HikariConfig config = new HikariConfig();
-    config.setJdbcUrl("jdbc:mariadb://localhost:3306/test");
+    config.setJdbcUrl("jdbc:mysql://localhost:3306/test");
     config.setPoolName("default");
     config.setUsername("root");
     config.setPassword("123456");

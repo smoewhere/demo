@@ -17,10 +17,18 @@ public class CustomerConfigurer<H extends HttpSecurityBuilder<H>> extends
 
   public CustomerConfigurer() {
     super(new CustomerAuthenticationFilter(), null);
+    defaultConfig();
+
   }
 
   @Override
   protected RequestMatcher createLoginProcessingUrlMatcher(String loginProcessingUrl) {
     return new AntPathRequestMatcher(loginProcessingUrl, "POST");
+  }
+
+  private void defaultConfig(){
+    successHandler(new JsonAuthenticationSuccessHandler());
+    failureHandler(new JsonAuthenticationFailHandler());
+    loginProcessingUrl("/doLogin");
   }
 }
