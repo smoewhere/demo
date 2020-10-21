@@ -38,8 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf().disable()
         //.formLogin().loginProcessingUrl("/login").loginPage("/loginPage").permitAll().and()
         .authorizeRequests()
-        .antMatchers("/index.html", "/css/**", "/img/**", "/js/**", "/layui/**","/login").permitAll()
+        .antMatchers("/index.html", "/css/**", "/img/**", "/js/**", "/layui/**", "/login").permitAll()
         .anyRequest().authenticated().and()
-        .apply(new CustomerConfigurer<>());
+        .apply(new CustomerConfigurer<>()).and()
+        .exceptionHandling().authenticationEntryPoint(new JsonAuthenticationEntryPoint());
   }
 }

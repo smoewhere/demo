@@ -129,6 +129,10 @@ public class ResultDto<T> {
      */
     SIGNATURE_NOT_MATCH(401, "请求的数字签名不匹配!"),
     /**
+     * 401错误
+     */
+    ACCESS_DENIED(403, "没有权限!"),
+    /**
      * 404 错误
      */
     NOT_FOUND(404, "未找到该资源!"),
