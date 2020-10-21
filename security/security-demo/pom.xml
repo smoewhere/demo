@@ -17,7 +17,6 @@
     <mybatisplus.version>3.4.0</mybatisplus.version>
     <druid.version>1.2.1</druid.version>
     <oshi.version>3.6.1</oshi.version>
-    <mysql.driver.version>8.0.13</mysql.driver.version>
     <commons.beanutils.version>1.9.4</commons.beanutils.version>
     <commons.collections.version>3.2.2</commons.collections.version>
     <org.apache.commons.codec.version>1.8</org.apache.commons.codec.version>
