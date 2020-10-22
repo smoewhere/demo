@@ -26,6 +26,7 @@ public class JsonAuthenticationFailHandler implements AuthenticationFailureHandl
       AuthenticationException exception) throws IOException, ServletException {
     response.setContentType("application/json");
     response.setCharacterEncoding(DEFAULT_ENCODING);
+    response.setStatus(403);
     PrintWriter writer = response.getWriter();
     ResultDto<Object> resultDto = ResultDto.buildError("登录失败！")
         .setCode(ResultEnum.INTERNAL_SERVER_ERROR.getResultCode());

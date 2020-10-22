@@ -22,6 +22,7 @@ public class JsonAuthenticationEntryPoint implements AuthenticationEntryPoint {
   public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
       throws IOException, ServletException {
     response.setContentType("application/json; charset=UTF-8");
+    response.setStatus(403);
     PrintWriter writer = response.getWriter();
     ResultDto<Object> error = ResultDto.buildError(ResultEnum.ACCESS_DENIED.getResultCode(), false,
         ResultEnum.ACCESS_DENIED.getResultMsg(), null);

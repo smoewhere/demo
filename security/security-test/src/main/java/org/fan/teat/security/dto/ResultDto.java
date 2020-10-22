@@ -62,6 +62,10 @@ public class ResultDto<T> {
     return buildSuccess(ResultEnum.SUCCESS.getResultCode(), true, msg, data);
   }
 
+  public static <T> ResultDto<T> buildSuccess(T data) {
+    return buildSuccess(ResultEnum.SUCCESS.getResultCode(), true, ResultEnum.SUCCESS.getResultMsg(), data);
+  }
+
   public static <T> ResultDto<T> buildSuccess(int code, boolean success, String msg, T data) {
     return new ResultDto<>(code, success, msg, data);
   }
