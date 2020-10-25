@@ -11,6 +11,7 @@
 
   <modules>
     <module>gui-tools</module>
+    <module>gui-lesson</module>
   </modules>
 
   <properties>

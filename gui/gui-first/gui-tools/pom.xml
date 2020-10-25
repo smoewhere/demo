@@ -66,7 +66,7 @@
     </dependency>
     <dependency>
       <groupId>javazoom</groupId>
-      <artifactId>JLayer</artifactId>
+      <artifactId>jlayer</artifactId>
       <version>1.0.1</version>
     </dependency>
   </dependencies>
