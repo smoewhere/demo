@@ -22,11 +22,11 @@ public class MybatisConfig {
   @Bean
   public DataSource dataSource(){
     HikariConfig config = new HikariConfig();
-    config.setJdbcUrl("jdbc:mysql://localhost:3306/test");
+    config.setJdbcUrl("jdbc:mysql://localhost:3306/test?characterEncoding=utf8&serverTimezone=GMT%2B8");
     config.setPoolName("default");
     config.setUsername("root");
     config.setPassword("123456");
-    config.setDriverClassName("org.mariadb.jdbc.Driver");
+    config.setDriverClassName("com.mysql.cj.jdbc.Driver");
     return new HikariDataSource(config);
   }
 

@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -41,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/index.html", "/css/**", "/img/**", "/js/**", "/layui/**", "/login").permitAll()
         .anyRequest().authenticated().and()
         .apply(new CustomerConfigurer<>()).and()
-        .exceptionHandling().authenticationEntryPoint(new JsonAuthenticationEntryPoint());
+        .exceptionHandling().authenticationEntryPoint(new JsonAuthenticationEntryPoint()).and()
+        ;
   }
 }

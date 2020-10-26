@@ -19,7 +19,7 @@
     </Console>
     <RollingFile name="DEBUG_ROLLING" fileName="${path}/${projectName}-debug.log"
       filePattern="${path}/$${date:yyyy-MM}/$${date:dd}/debug/${projectName}-%d{yyyy-MM-dd}-debug-%i.log">
-      <PatternLayout charset="UTF-8" pattern="%d %p [%t] %C.%M(%L) | %m%n%throwable"/>
+      <PatternLayout charset="UTF-8" pattern="[%d] %p [%t] %C.%M(%L) | %m%n%throwable"/>
       <Policies>
         <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
         <SizeBasedTriggeringPolicy size="50 MB"/>
