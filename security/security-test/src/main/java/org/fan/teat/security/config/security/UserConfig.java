@@ -3,9 +3,11 @@ package org.fan.teat.security.config.security;
 import javax.annotation.Resource;
 import org.fan.teat.security.model.SysUser;
 import org.fan.teat.security.service.SysUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserCache;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,6 +30,6 @@ public class UserConfig implements UserDetailsService {
     if (sysUser == null) {
       throw new UsernameNotFoundException("user:{}" + username + "not found");
     }
-    return new User(sysUser.getUserName(), sysUser.getPassword(), AuthorityUtils.createAuthorityList("1"));
+    return new User(sysUser.getUserName(), sysUser.getPassword(), AuthorityUtils.createAuthorityList("1","2"));
   }
 }

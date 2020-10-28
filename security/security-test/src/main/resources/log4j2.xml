@@ -13,7 +13,7 @@
                      pattern="%highlight{%d{HH:mm:ss,SSS} }{FATAL=Bright Red, ERROR=Bright Magenta, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White}"/>-->
       <PatternLayout charset="UTF-8">
         <Pattern>
-          [%4sn] %d -- %-5level-- [%T]-[%t] %c: %msg%n%throwable
+          [%4sn] [%d] -- %-5level-- [%T]-[%t] %c: %msg%n%throwable
         </Pattern>
       </PatternLayout>
     </Console>

@@ -31,4 +31,9 @@ public class CustomerConfigurer<H extends HttpSecurityBuilder<H>> extends
     failureHandler(new JsonAuthenticationFailHandler());
     loginProcessingUrl("/doLogin");
   }
+
+  @Override
+  public void configure(H http) throws Exception {
+    super.configure(http);
+  }
 }

@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -48,13 +49,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .anyRequest().authenticated().and()
         .apply(new CustomerConfigurer<>()).and()
         .exceptionHandling().authenticationEntryPoint(new JsonAuthenticationEntryPoint()).and()
-        // 添加自定义的session管理器。配置登录成功之后的session逻辑
+        /*// 添加自定义的session管理器。配置登录成功之后的session逻辑
         .sessionManagement().sessionAuthenticationStrategy(new SessionAuthenticationStrategy() {
       @Override
       public void onAuthentication(Authentication authentication, HttpServletRequest request,
           HttpServletResponse response) throws SessionAuthenticationException {
 
       }
-    });
+    })*/;
   }
 }
