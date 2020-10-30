@@ -69,17 +69,17 @@ https://docs.spring.io/spring-security/site/docs/5.4.1/reference/html5/#modules
 
 在传统的servlet-web项目中，spring-security使用了系列的Filter来拦截请求并验证。官方的大图：
 
-![image-20201029144021512](.\images\filterchain.png)
+![image-20201029144021512](./images/filterchain.png)
 
 以上单个http请求的流程，其中经过了多个Filter，spring-security就是其中一个Filter：
 
-![image-20201029144255694](.\images\securityFilter.png)
+![image-20201029144255694](./images/securityFilter.png)
 
 其中DelegatingFilterProxy就是Spring设置的过滤器，这个是Spring在配置web的时候常用的过滤器，其作用就是可以先把过滤器注册到servlet容器中，然后在运行时，通过getFilter()方法获取真正的Filter。在这个过滤器中，真正的实现是FilterChainProxy。
 
 具体如图所示：
 
-![image-20201029144621197](.\images\securityChain.png)
+![image-20201029144621197](./images/securityChain.png)
 
 可以看到，在FilterChainProxy中有多个SecurityFilterChain，根据配置的url获取需要拦截的FilterChain，然后执行SecurityFilterChain中的一系列过滤器，进行校验。Spring官方文档也给出了SecurityFilterChain中所有的Filter的顺序和类型，具体如下：
 
@@ -328,7 +328,7 @@ public @interface EnableWebSecurity {
 
 先上一张uml类图
 
-![image-20201029155907944](.\images\webSecurity.png)
+![image-20201029155907944](./images/webSecurity.png)
 
 SecurityBuilder是顶级接口，基本上security相关的所有builder都是和他有关，他只有一个方法
 
@@ -501,7 +501,7 @@ protected final HttpSecurity getHttp() throws Exception {
 
 接下去就是HttpSecurity的配置
 
-![image-20201029162714867](.\images\HttpSecurity.png)
+![image-20201029162714867](./images/HttpSecurity.png)
 
 和WebSecurity差不多，所以也是那套流程，在里面有很多个FilterConfigurtion，通过FilterConfigurtion的configure方法，添加Filter。
 
