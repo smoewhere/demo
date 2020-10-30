@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectMapper.DefaultTyping;
 import java.io.BufferedReader;
@@ -17,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.OpenOption;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 import javax.servlet.ServletInputStream;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +40,7 @@ public class TestUtils {
   static {
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
     mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    mapper.activateDefaultTyping(mapper.getPolymorphicTypeValidator(), DefaultTyping.NON_FINAL, As.PROPERTY);
+    //mapper.activateDefaultTyping(mapper.getPolymorphicTypeValidator(), DefaultTyping.NON_FINAL, As.PROPERTY);
   }
 
 
@@ -55,9 +57,8 @@ public class TestUtils {
     try {
       String value = mapper.writeValueAsString(person);
       System.out.println(value);
-      Object readValue = mapper.readValue(value, Object.class);
-      Person person1 = (Person) readValue;
-      System.out.println(person1.toString());
+      JsonNode jsonNode = mapper.readValue(value, JsonNode.class);
+      System.out.println(jsonNode.fieldNames());
     } catch (JsonProcessingException e) {
       e.printStackTrace();
     }
@@ -80,6 +81,11 @@ public class TestUtils {
     } catch (Exception e) {
       log.error("[TestUtils.testStream]", e);
     }
+  }
+  
+  @Test
+  public void testMath(){
+    System.out.println((float) 1 / 100);
   }
 
 

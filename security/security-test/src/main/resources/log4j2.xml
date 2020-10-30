@@ -44,6 +44,10 @@
       <AppenderRef ref="Console"/>
       <appender-ref ref="DEBUG_ROLLING"/>
     </logger>
+    <logger name="com.zaxxer.hikari.pool" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+      <appender-ref ref="DEBUG_ROLLING"/>
+    </logger>
     <root level="debug">
       <appender-ref ref="Console"/>
       <appender-ref ref="DEBUG_ROLLING"/>
