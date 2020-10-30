@@ -1,9 +1,17 @@
 package org.fan.teat.security.config.security.handler;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -15,8 +23,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.context.HttpRequestResponseHolder;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Component;
@@ -52,7 +64,7 @@ public class RedisSecurityContextRepository implements SecurityContextRepository
   @Override
   public void saveContext(SecurityContext context, HttpServletRequest request, HttpServletResponse response) {
     String uuid = null;
-    Boolean isLogin = (Boolean) request.getAttribute("isLogin");
+    boolean isLogin = Optional.ofNullable((Boolean) request.getAttribute("isLogin")).orElse(false);
     if (isLogin) {
       uuid = (String) request.getAttribute("loginUid");
     } else {
@@ -110,9 +122,40 @@ public class RedisSecurityContextRepository implements SecurityContextRepository
     if (StringUtils.isBlank(s)) {
       return emptyContext;
     }
-    JsonNode node = JsonUtil.fromJson(s, JsonNode.class);
-    //new UsernamePasswordAuthenticationToken()
-    //emptyContext.setAuthentication();
-    return null;
+    try {
+      JsonNode node = JsonUtil.fromJson(s, JsonNode.class);
+      boolean authenticated = node.get("authenticated").asBoolean(false);
+      JsonNode principal = node.get("principal");
+      String username = principal.get("username").asText("");
+      boolean accountNonExpired = principal.get("accountNonExpired").asBoolean(false);
+      boolean enabled = principal.get("enabled").asBoolean(false);
+      boolean credentialsNonExpired = principal.get("credentialsNonExpired").asBoolean(false);
+      boolean accountNonLocked = principal.get("accountNonLocked").asBoolean(false);
+      List<GrantedAuthority> authoritiesList = new ArrayList<>();
+      JsonNode authorities = node.get("authorities");
+      if (!authorities.isEmpty() && authorities.isArray()) {
+        for (JsonNode jsonNode : authorities) {
+          String text = jsonNode.get("authority").asText();
+          if (StringUtils.isNotBlank(text)) {
+            authoritiesList.add(new SimpleGrantedAuthority(text));
+          }
+        }
+      }
+      User user = new User(username, "", enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
+          authoritiesList);
+      user.eraseCredentials();
+      UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
+          user, null, user.getAuthorities());
+      emptyContext.setAuthentication(token);
+    } catch (Exception e) {
+      log.error("error ",e);
+      return emptyContext;
+    }
+    return emptyContext;
+  }
+
+  private boolean judge(JsonNode node) {
+    JsonNode node1 = node.get("authority");
+    return StringUtils.isNotBlank(node1.asText());
   }
 }
