@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.fan.teat.security.config.security.component.WebRequestAuthenticationDetailsSource;
 import org.fan.teat.security.config.security.filter.CustomerAuthenticationFilter;
 import org.fan.teat.security.config.security.handler.JsonAuthenticationFailHandler;
 import org.fan.teat.security.config.security.handler.JsonAuthenticationSuccessHandler;
@@ -48,6 +49,7 @@ public class CustomerConfigurer<H extends HttpSecurityBuilder<H>> extends
     failureHandler(new JsonAuthenticationFailHandler());
     loginProcessingUrl("/doLogin");
     http.setSharedObject(SessionAuthenticationStrategy.class, postProcess(new RedisSessionAuthenticationStrategy()));
+    authenticationDetailsSource(new WebRequestAuthenticationDetailsSource());
   }
 
   @Override
@@ -89,7 +91,6 @@ public class CustomerConfigurer<H extends HttpSecurityBuilder<H>> extends
       request.setAttribute("loginUid", uuid);
       Cookie cookie = new Cookie("UID", uuid);
       cookie.setPath("/");
-      cookie.setMaxAge(60);
       response.addCookie(cookie);
     }
   }

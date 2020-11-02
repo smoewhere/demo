@@ -3,6 +3,7 @@ package org.fan.teat.security.config.security.handler;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -17,6 +18,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.fan.teat.security.config.security.component.SysAuthenticationToken;
 import org.fan.teat.security.utils.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -123,29 +125,7 @@ public class RedisSecurityContextRepository implements SecurityContextRepository
       return emptyContext;
     }
     try {
-      JsonNode node = JsonUtil.fromJson(s, JsonNode.class);
-      boolean authenticated = node.get("authenticated").asBoolean(false);
-      JsonNode principal = node.get("principal");
-      String username = principal.get("username").asText("");
-      boolean accountNonExpired = principal.get("accountNonExpired").asBoolean(false);
-      boolean enabled = principal.get("enabled").asBoolean(false);
-      boolean credentialsNonExpired = principal.get("credentialsNonExpired").asBoolean(false);
-      boolean accountNonLocked = principal.get("accountNonLocked").asBoolean(false);
-      List<GrantedAuthority> authoritiesList = new ArrayList<>();
-      JsonNode authorities = node.get("authorities");
-      if (!authorities.isEmpty() && authorities.isArray()) {
-        for (JsonNode jsonNode : authorities) {
-          String text = jsonNode.get("authority").asText();
-          if (StringUtils.isNotBlank(text)) {
-            authoritiesList.add(new SimpleGrantedAuthority(text));
-          }
-        }
-      }
-      User user = new User(username, "", enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,
-          authoritiesList);
-      user.eraseCredentials();
-      UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-          user, null, user.getAuthorities());
+      SysAuthenticationToken token = JsonUtil.fromJson(s, SysAuthenticationToken.class);
       emptyContext.setAuthentication(token);
     } catch (Exception e) {
       log.error("error ",e);

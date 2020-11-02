@@ -5,10 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.fan.teat.security.config.security.component.SysAuthenticationToken;
 import org.fan.teat.security.dto.LoginUser;
 import org.fan.teat.security.utils.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -31,6 +34,7 @@ public class CustomerAuthenticationFilter extends UsernamePasswordAuthentication
   private static final String DEFAULT_ENCODING = "UTF-8";
   private static final ThreadLocal<LoginUser> userLocal = new ThreadLocal<>();
   private static final ObjectMapper mapper = new ObjectMapper();
+  private boolean postOnly = true;
 
 
   private static final Logger log = LoggerFactory.getLogger(CustomerAuthenticationFilter.class);
@@ -39,7 +43,26 @@ public class CustomerAuthenticationFilter extends UsernamePasswordAuthentication
   public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
       throws AuthenticationException {
     try {
-      return super.attemptAuthentication(request, response);
+      if (postOnly && !request.getMethod().equals("POST")) {
+        throw new AuthenticationServiceException(
+            "Authentication method not supported: " + request.getMethod());
+      }
+      String username = obtainUsername(request);
+      String password = obtainPassword(request);
+
+      if (username == null) {
+        username = "";
+      }
+
+      if (password == null) {
+        password = "";
+      }
+
+      username = username.trim();
+      SysAuthenticationToken authRequest = new SysAuthenticationToken(
+          username, password);
+      setDetails(request, authRequest);
+      return getAuthenticationManager().authenticate(authRequest);
     } finally {
       userLocal.remove();
     }
@@ -125,5 +148,9 @@ public class CustomerAuthenticationFilter extends UsernamePasswordAuthentication
       encoding = DEFAULT_ENCODING;
     }
     return encoding;
+  }
+
+  public void setPostOnly(boolean postOnly) {
+    this.postOnly = postOnly;
   }
 }
