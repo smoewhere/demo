@@ -11,6 +11,7 @@ import javafx.scene.Cursor;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import org.apache.commons.lang3.StringUtils;
+import org.fan.demo.service.TimeService;
 import org.fan.demo.view.TimeView;
 
 /**
@@ -24,6 +25,7 @@ public class TimingController extends TimeView {
   private final List<String> stringList = new LinkedList<>();
   private static final Image start = new Image("/images/开始.jpg");
   private static final Image stop = new Image("/images/暂停.jpg");
+  private final TimeService timeService = new TimeService(this);
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -138,6 +140,7 @@ public class TimingController extends TimeView {
     this.isStart = false;
     startImage.setOnMouseClicked(event -> start());
     startImage.setImage(start);
+    timeService.pauseMusic();
     String hourText = textHour.getText();
     String minText = textMin.getText();
     String secText = textSec.getText();
@@ -215,6 +218,10 @@ public class TimingController extends TimeView {
       this.textMin.setText("00");
       this.textSec.setText("00");
       isStart = false;
+    }
+    int total = hour * 3600 + min * 60 + sec;
+    if (!timeService.isStarted() && total <= 10) {
+      timeService.playMusic();
     }
   }
 }
