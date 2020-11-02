@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.annotation.Resource;
+import javax.annotation.security.RolesAllowed;
 import lombok.extern.slf4j.Slf4j;
 import org.fan.teat.security.dto.ResultDto;
 import org.fan.teat.security.vo.UserVo;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +50,7 @@ public class HelloController {
 
   @RequestMapping(value = "/get/user/{id}", method = RequestMethod.GET)
   @ResponseBody
+  @PreAuthorize("hasAnyAuthority('3')")
   public ResultDto<UserVo> getUser(@PathVariable(name = "id") Integer id){
     if (id < 0 || id > 10) {
       return ResultDto.buildSuccess("用户不存在", null);

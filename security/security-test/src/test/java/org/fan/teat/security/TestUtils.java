@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.fan.teat.security.config.security.component.SysAuthenticationToken;
 import org.fan.teat.security.config.security.component.SysUserDetail;
 import org.fan.teat.security.utils.JsonUtil;
+import org.fan.teat.security.utils.RedisUtil;
 import org.fan.teat.security.utils.SnowFlakeUtil;
 import org.junit.jupiter.api.Test;
 import redis.clients.jedis.Jedis;
@@ -90,10 +91,8 @@ public class TestUtils {
 
   @Test
   public void testRedis(){
-    Jedis jedis = new Jedis("127.0.0.1",6379);
-    jedis.connect();
-    jedis.auth("lf0507");
-    String str = jedis.get("session_375ce598-34e0-47cb-adeb-21179dd50da1");
+
+    String str = RedisUtil.getInstance().get("session_375ce598-34e0-47cb-adeb-21179dd50da1");
     SysAuthenticationToken token = JsonUtil.fromJson(str, SysAuthenticationToken.class);
     System.out.println(token);
 
