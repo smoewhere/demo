@@ -11,5 +11,5 @@ spring:
         min-idle: 10
         max-wait: 10000
     host: 127.0.0.1
-    password: lf0507
+    password: 123456
     port: 6379

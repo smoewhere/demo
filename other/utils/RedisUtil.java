@@ -55,7 +55,7 @@ public class RedisUtil {
     RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
     config.setHostName("127.0.0.1");
     config.setPort(6379);
-    config.setPassword(RedisPassword.of("lf0507"));
+    config.setPassword(RedisPassword.of("123456"));
     config.setDatabase(1);
     GenericObjectPoolConfig<Object> poolConfig = new GenericObjectPoolConfig<>();
     poolConfig.setMaxIdle(100);

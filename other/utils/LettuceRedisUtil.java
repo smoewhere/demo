@@ -33,7 +33,7 @@ public class LettuceRedisUtil {
   private static final ObjectMapper mapper = new ObjectMapper();
 
   static {
-    RedisURI redisURI = RedisURI.builder().withHost("127.0.0.1").withPort(6379).withPassword("lf0507")
+    RedisURI redisURI = RedisURI.builder().withHost("127.0.0.1").withPort(6379).withPassword("123456")
         .withTimeout(Duration.ofSeconds(5)).build();
     client = RedisClient.create(redisURI);
     GenericObjectPoolConfig<StatefulRedisConnection<String, Object>> poolConfig = new GenericObjectPoolConfig<>();
