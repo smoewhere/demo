@@ -43,8 +43,8 @@ public class ChangeStep {
     HashMap<String, Object> body = new HashMap<>();
     body.put("appType", 6);
     body.put("clientId", "8e844e28db7245eb81823132464835eb");
-    body.put("loginName", "13047600898");
-    body.put("password", md5("fsj648272511"));
+    body.put("loginName", "****");  // 账号
+    body.put("password", md5("****")); // 密码
     body.put("roleType", 0);
     Gson gson = new Gson();
     System.out.println(gson.toJson(body));
