@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF" monitorInterval="30000">
+  <Properties>
+    <!--web项目中当前目录为tomcat等服务器的bin目录，可以自己改为工程目录-->
+    <property name="path">./logs</property>
+    <property name="projectName">dubbo-consumer</property>
+  </Properties>
+  <appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <!--<YAMLLayout pattern="%t-%highlight{%d{HH:mm:ss.SSS} %-5level %logger{36}.%M() @%L - %msg%n}{FATAL=Bright Red, ERROR=Bright Magenta, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White}"/>-->
+      <!--<PatternLayout pattern="%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{-&#45;&#45;}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${%xwEx}" />-->
+      <!--<PatternLayout charset="UTF-8"
+                     pattern="%highlight{%d{HH:mm:ss,SSS} }{FATAL=Bright Red, ERROR=Bright Magenta, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White}"/>-->
+      <PatternLayout charset="UTF-8">
+        <Pattern>
+          [%4sn] [%d] -- %-5level-- [%T]-[%t] %C.%M(%L): %msg%n%throwable
+        </Pattern>
+      </PatternLayout>
+    </Console>
+    <RollingFile name="DEBUG_ROLLING" fileName="${path}/${projectName}-debug.log"
+      filePattern="${path}/${projectName}-%d{yyyy-MM-dd}-debug-%i.log">
+      <PatternLayout charset="UTF-8" pattern="%d %p [%t] %C.%M(%L) | %m%n%throwable"/>
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+        <SizeBasedTriggeringPolicy size="50 MB"/>
+      </Policies>
+      <!--最大日志文件数-->
+      <DefaultRolloverStrategy max="50">
+        <!--最大深度，如果深度是1则搜索本目录下的所有文件，深度加深则以此类推，默认1-->
+        <Delete basePath="${path}" maxDepth="4">
+          <!--正则表达式-->
+          <IfFileName regex="(.)+dubbo-consumer(.)*\.log$"/>
+          <!--删除超过10天的日志-->
+          <IfLastModified age="10d"/>
+        </Delete>
+      </DefaultRolloverStrategy>
+      <Filters>
+        <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+      </Filters>
+    </RollingFile>
+  </appenders>
+  <loggers>
+    <logger name="org.springframework" level="info" additivity="false">
+      <AppenderRef ref="Console"/>
+      <appender-ref ref="DEBUG_ROLLING"/>
+    </logger>
+    <root level="info">
+      <appender-ref ref="Console"/>
+      <appender-ref ref="DEBUG_ROLLING"/>
+    </root>
+  </loggers>
+</configuration>
