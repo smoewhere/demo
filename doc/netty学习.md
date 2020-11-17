@@ -14,7 +14,7 @@
 
 - netty架构图
 
-  ![netty架构图](.\images\netty架构图.png)
+  ![netty架构图](./images/netty架构图.png)
 
 netty是以反应堆模型(Reactor)写的框架.
 
@@ -34,7 +34,7 @@ Netty主要是基于主从Reactors多线程模型(如下图)做了一些修改�
 
 这里引用Doug Lee大神的Reactor介绍：Scalable IO in Java里面关于主从Reactor多线程模型的图：
 
-![Reactor模型图](.\images\Reactor模型.png)
+![Reactor模型图](./images/Reactor模型.png)
 
 特别说明的是：虽然Netty的线程模型基于主从Reactor多线程，借用了MainReactor和SubReactor的结构。但是实际实现上SubReactor和Worker线程在同一个线程池中
 
