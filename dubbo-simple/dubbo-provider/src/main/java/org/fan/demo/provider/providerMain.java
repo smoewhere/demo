@@ -5,7 +5,7 @@ import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ProtocolConfig;
 import org.apache.dubbo.config.RegistryConfig;
 import org.apache.dubbo.config.ServiceConfig;
-import org.fan.demo.provider.service.HelloService;
+import org.fan.demo.common.service.HelloService;
 import org.fan.demo.provider.service.impl.HelloServiceImpl;
 
 /**
@@ -23,8 +23,8 @@ public class providerMain {
     RegistryConfig registry = new RegistryConfig();
     registry.setAddress("127.0.0.1:6379");
     registry.setProtocol("redis");
-    registry.setUsername("fan");
-    registry.setPassword("fsj@123");
+    registry.setUsername("lf");
+    registry.setPassword("lf0507");
 
 // 服务提供者协议配置
     ProtocolConfig protocol = new ProtocolConfig();

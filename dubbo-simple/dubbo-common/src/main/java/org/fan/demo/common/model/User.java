@@ -1,4 +1,4 @@
-package org.fan.demo.provider.model;
+package org.fan.demo.common.model;
 
 import java.io.Serializable;
 

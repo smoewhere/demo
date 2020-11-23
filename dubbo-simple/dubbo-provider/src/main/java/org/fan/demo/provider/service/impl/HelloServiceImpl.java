@@ -2,8 +2,8 @@ package org.fan.demo.provider.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.fan.demo.provider.model.User;
-import org.fan.demo.provider.service.HelloService;
+import org.fan.demo.common.model.User;
+import org.fan.demo.common.service.HelloService;
 
 /**
  * @author Fan

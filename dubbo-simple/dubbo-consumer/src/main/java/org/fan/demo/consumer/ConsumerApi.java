@@ -3,7 +3,7 @@ package org.fan.demo.consumer;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
-import org.fan.demo.provider.service.HelloService;
+import org.fan.demo.common.service.HelloService;
 
 /**
  * @author Fan
@@ -22,7 +22,7 @@ public class ConsumerApi {
     RegistryConfig registry = new RegistryConfig();
     registry.setAddress("127.0.0.1:6379");
     registry.setUsername("fan");
-    registry.setPassword("fsj@123");
+    registry.setPassword("lf0507");
     registry.setProtocol("redis");
 
     // 注意：ReferenceConfig为重对象，内部封装了与注册中心的连接，以及与服务提供方的连接
