@@ -1,0 +1,9 @@
+spring:
+  kafka:  # kafka配置文件版本，两个配置可以都存在，但是Java代码配置会覆盖配置文件的配置
+    consumer:
+      group-id: test-1 # 还有其他配置，参照java配置版本
+      bootstrap-servers: 192.168.10.220:9092 # 服务器地址端口
+      enable-auto-commit: true  # 是否自动提交
+    producer:
+      bootstrap-servers: 192.168.10.220:9092
+      acks: -1         # 还有其他配置，参照java配置版本
