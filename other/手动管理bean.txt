@@ -1,0 +1,14 @@
+// 获取context
+ApplicationContext ctx =  (ApplicationContext) SpringApplication.run(App.class, args);
+//获取BeanFactory
+DefaultListableBeanFactory defaultListableBeanFactory = (DefaultListableBeanFactory) ctx.getAutowireCapableBeanFactory();
+//创建bean信息.
+BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(TestService.class);
+beanDefinitionBuilder.addPropertyValue("name","张三");
+//动态注册bean.
+defaultListableBeanFactory.registerBeanDefinition("testService", beanDefinitionBuilder.getBeanDefinition());
+//获取动态注册的bean.
+TestService testService =ctx.getBean(TestService.class);、testService.print();
+
+// 动态删除
+defaultListableBeanFactory.removeBeanDefinition("testService");
