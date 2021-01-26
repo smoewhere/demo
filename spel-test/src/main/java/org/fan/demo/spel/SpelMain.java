@@ -3,27 +3,32 @@ package org.fan.demo.spel;
 import java.time.LocalDateTime;
 import org.fan.demo.spel.model.ListDemo;
 import org.fan.demo.spel.model.Person;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.SpelParserConfiguration;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.SimpleEvaluationContext;
+import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 /**
  * https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#expressions
- * 
+ *
  * @version 1.0
  * @author: Fan
  * @date 2021.1.25 18:26
  */
 public class SpelMain {
 
+  private static final Logger log = LoggerFactory.getLogger(SpelMain.class);
+
   private static final ExpressionParser PARSER = new SpelExpressionParser();
 
   public static void main(String[] args) {
     SpelMain spelMain = new SpelMain();
-    spelMain.parseNormalConfig();
+    spelMain.parseNormalOperators();
   }
 
   private void parseSimple() {
@@ -46,8 +51,8 @@ public class SpelMain {
   /**
    * 配置后，自动null值，collection自动增长
    */
-  private void parseNormalConfig(){
-    SpelParserConfiguration config = new SpelParserConfiguration(true,true);
+  private void parseNormalConfig() {
+    SpelParserConfiguration config = new SpelParserConfiguration(true, true);
     ExpressionParser parser = new SpelExpressionParser(config);
     ListDemo listDemo = new ListDemo();
     EvaluationContext context = SimpleEvaluationContext.forReadWriteDataBinding().build();
@@ -56,6 +61,26 @@ public class SpelMain {
     Expression expression = parser.parseExpression("stringList[3]");
     expression.getValue(listDemo);
     System.out.println(listDemo);
+  }
+
+  private void parseNormalMethod() {
+    StandardEvaluationContext context = new StandardEvaluationContext();
+    context.setRootObject(new Person());
+    Boolean value = PARSER.parseExpression("isMember('Mihajlo Pupin')")
+        .getValue(context, Boolean.class);
+    System.out.println(value);
+  }
+
+  private void parseNormalOperators() {
+    // evaluates to true
+    Boolean trueValue = PARSER.parseExpression("2 == 2").getValue(Boolean.class);
+    log.info("[SpelMain.parseNormalOperators] value is {}", trueValue);
+    // evaluates to false
+    Boolean falseValue = PARSER.parseExpression("2 < -5.0").getValue(Boolean.class);
+    log.info("[SpelMain.parseNormalOperators] value is {}", falseValue);
+    // evaluates to true
+    trueValue = PARSER.parseExpression("'black' < 'block'").getValue(Boolean.class);
+    log.info("[SpelMain.parseNormalOperators] value is {}", trueValue);
   }
 
 }
