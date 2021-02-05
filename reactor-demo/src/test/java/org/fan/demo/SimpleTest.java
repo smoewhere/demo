@@ -15,6 +15,7 @@ import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 import reactor.core.publisher.FluxSink.OverflowStrategy;
+import reactor.core.publisher.Mono;
 import reactor.util.Loggers;
 
 /**
@@ -123,5 +124,15 @@ public class SimpleTest {
 
   private String getX() {
     return "aaaaa";
+  }
+
+  @Test
+  public void testMonoSimple(){
+    Mono.just("x").log().doOnNext(System.out::println).subscribe();
+  }
+
+  @Test
+  public void testMonoCache(){
+    Mono.just(1).log().cache().then(Mono.just(2).log()).subscribe(System.out::println);
   }
 }
