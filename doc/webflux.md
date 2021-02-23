@@ -44,3 +44,55 @@ server.onDispose().block();
 
 ## 关键流程
 
+在启动Main.class中，有**EnableWebFlux**注解，该注解是开启webflux的配置类。在该注解中，导入了**DelegatingWebFluxConfiguration**类，其中在**WebFluxConfigurationSupport**中注册了**RequestMappingHandlerMapping**和**DispatcherHandler**等webflux的组件，类似于springmvc中的HandlerMapping。
+
+创建HttpHandler的流程其实就是把之前的spring容器注入到里面，并且把webflux的组件导入。applicationContext方法中的源码如下：
+
+```java
+//把WebHandler组件从容器中注入到Builder中，WebHandler的实现就是DispatcherHandler
+WebHttpHandlerBuilder builder = new WebHttpHandlerBuilder(
+				context.getBean(WEB_HANDLER_BEAN_NAME, WebHandler.class), context);
+		List<WebFilter> webFilters = context
+				.getBeanProvider(WebFilter.class)
+				.orderedStream()
+				.collect(Collectors.toList());
+		builder.filters(filters -> filters.addAll(webFilters));
+		List<WebExceptionHandler> exceptionHandlers = context
+				.getBeanProvider(WebExceptionHandler.class)
+				.orderedStream()
+				.collect(Collectors.toList());
+		builder.exceptionHandlers(handlers -> handlers.addAll(exceptionHandlers));
+省略。。。。
+```
+
+其实就是把spring容器中的组件放到build中，然后生成一个适配的HttpHandler。然后通过spring实现的**ReactorHttpHandlerAdapter**，把组件注入到**HttpServer**中，**HttpServer**是基于Reactor-Netty的。
+
+经过一系列的组装之后，httpserver把httphandler组装好，然后基于**HttpServerOperations**的状态改变，在每次状态改变时，都会调用onStateChange方法，最后调到**HttpServerHandle**的onStateChange方法：
+
+```java
+public void onStateChange(Connection connection, State newState) {
+		if (newState == HttpServerState.REQUEST_RECEIVED) {
+			try {
+				if (log.isDebugEnabled()) {
+					log.debug(format(connection.channel(), "Handler is being applied: {}"), handler);
+				}
+				HttpServerOperations ops = (HttpServerOperations) connection;
+				Mono.fromDirect(handler.apply(ops, ops))
+				    .subscribe(ops.disposeSubscriber());
+			}
+			catch (Throwable t) {
+				log.error(format(connection.channel(), ""), t);
+				//"FutureReturnValueIgnored" this is deliberate
+				connection.channel()
+				          .close();
+			}
+		}
+	}
+```
+
+由其中的handler（就是一开始定义的ReactorHttpHandlerAdapter）处理请求内容。
+
+之后的调用流程大概就是：
+
+ReactorHttpHandlerAdapter.apply() --> HttpWebHandlerAdapter.handle() --> FilteringWebHandler.handle() --> DefaultWebFilterChain.filter() --> DispatcherHandler.handle()
+
