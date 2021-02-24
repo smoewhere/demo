@@ -44,7 +44,7 @@ server.onDispose().block();
 
 ## 关键流程
 
-在启动Main.class中，有**EnableWebFlux**注解，该注解是开启webflux的配置类。在该注解中，导入了**DelegatingWebFluxConfiguration**类，其中在**WebFluxConfigurationSupport**中注册了**RequestMappingHandlerMapping**和**DispatcherHandler**等webflux的组件，类似于springmvc中的HandlerMapping。
+在启动Main.class中，有**EnableWebFlux**注解，该注解是开启webflux的配置。在该注解中，导入了**DelegatingWebFluxConfiguration**类，其中在**WebFluxConfigurationSupport**中注册了**RequestMappingHandlerMapping**和**DispatcherHandler**等webflux的组件，类似于springmvc中的HandlerMapping。
 
 创建HttpHandler的流程其实就是把之前的spring容器注入到里面，并且把webflux的组件导入。applicationContext方法中的源码如下：
 
@@ -96,3 +96,66 @@ public void onStateChange(Connection connection, State newState) {
 
 ReactorHttpHandlerAdapter.apply() --> HttpWebHandlerAdapter.handle() --> FilteringWebHandler.handle() --> DefaultWebFilterChain.filter() --> DispatcherHandler.handle()
 
+### 作为mvc方法的调用
+
+```java
+@RestController
+public class HelloController {
+
+  private static final Logger log = LoggerFactory.getLogger(HelloController.class);
+
+  @Resource
+  Scheduler scheduler;
+
+  @RequestMapping("/hello/{time}")
+  public Mono<String> hello(@PathVariable("time") Long time){
+    return Mono.delay(Duration.ofMillis(time)).then(Mono.just("hello world!")).publishOn(scheduler);
+  }
+
+}
+```
+
+webflux兼容大部分springmvc的注解，但是在返回方面，建议使用Reactor-core的Mono。并且使用publishOn方法通过异步调用。因为netty在大量并发下，传统的mvc调用，即返回一个对象这种情况，会出现大量的connection refused 报错，并且使用Scheduler有助于提高吞吐。
+
+
+
+## springboot中的自动配置
+
+springboot通常使用AutoConfigure自动配置类进行配置，webflux通用如此，自动配置的入口为**WebFluxAutoConfiguration**。
+
+这里面的流程和@EnableWebflux相同，配置了httphandler，handlermapping等组件，这些是内部的配置，关于HttpServer的启动，在**ReactiveWebServerFactoryAutoConfiguration**中，
+
+![image-20210224171340064](./images/webflux_httpserver_config.png)
+
+在这个配置类中，引入了支持的几种**ReactiveWebServerFactory**，以netty举例：
+
+spring向容器中注入了**NettyReactiveWebServerFactory**
+
+```java
+@Configuration(proxyBeanMethods = false)
+@ConditionalOnMissingBean(ReactiveWebServerFactory.class)
+@ConditionalOnClass({ HttpServer.class })
+static class EmbeddedNetty {
+
+    @Bean
+    @ConditionalOnMissingBean
+    ReactorResourceFactory reactorServerResourceFactory() {
+        return new ReactorResourceFactory();
+    }
+
+    @Bean
+    NettyReactiveWebServerFactory nettyReactiveWebServerFactory(ReactorResourceFactory resourceFactory,
+          ObjectProvider<NettyRouteProvider> routes, ObjectProvider<NettyServerCustomizer> serverCustomizers) {
+        NettyReactiveWebServerFactory serverFactory = new NettyReactiveWebServerFactory();
+        serverFactory.setResourceFactory(resourceFactory);
+        routes.orderedStream().forEach(serverFactory::addRouteProviders);
+        serverFactory.getServerCustomizers().addAll(serverCustomizers.orderedStream().collect(Collectors.toList()));
+        return serverFactory;
+    }
+
+}
+```
+
+然后在启动时，即**SpringApplication**的run方法中，通过WebApplicationType.deduceFromClasspath()确定了当前容器的类型。如果引入webflux，则WebApplicationType就是REACTIVE类型，相应的创建的容器类型则是**AnnotationConfigReactiveWebServerApplicationContext**。
+
+在**AnnotationConfigReactiveWebServerApplicationContext**的onRefresh方法中，通过createWebServer创建服务并启动。其中，createWebServer中是通过之前注册到容器中的**NettyReactiveWebServerFactory**。到此，服务已经启动了。
