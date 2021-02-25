@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class LeetCode830 {
   public List<List<Integer>> largeGroupPositions(String s) {
-    List<List<Integer>> ret = new ArrayList<List<Integer>>();
+    List<List<Integer>> ret = new ArrayList<>();
     int n = s.length();
     int num = 1;
     for (int i = 0; i < n; i++) {
