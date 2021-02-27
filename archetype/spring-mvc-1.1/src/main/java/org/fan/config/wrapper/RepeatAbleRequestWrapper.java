@@ -22,6 +22,10 @@ public class RepeatAbleRequestWrapper extends HttpServletRequestWrapper {
 
   private byte[] requestBody;
 
+  private boolean isRead = false;
+
+  private final HttpServletRequest request;
+
   /**
    * Constructs a request object wrapping the given request.
    *
@@ -30,11 +34,16 @@ public class RepeatAbleRequestWrapper extends HttpServletRequestWrapper {
    */
   public RepeatAbleRequestWrapper(HttpServletRequest request) throws IOException {
     super(request);
-    copyBody(request.getInputStream());
+    this.request = request;
+    //copyBody(request.getInputStream());
   }
 
   @Override
   public ServletInputStream getInputStream() throws IOException {
+    if (!isRead) {
+      copyBody(request.getInputStream());
+      isRead = true;
+    }
     return new RepeatAbleInputStream(requestBody);
   }
 
@@ -43,6 +52,9 @@ public class RepeatAbleRequestWrapper extends HttpServletRequestWrapper {
     if (in == null) {
       requestBody = new byte[0];
       return 0;
+    }
+    if (in.markSupported()) {
+      in.reset();
     }
     ByteArrayOutputStream outputStream = new ByteArrayOutputStream(BUFFER_SIZE);
     int byteCount = 0;
@@ -57,6 +69,9 @@ public class RepeatAbleRequestWrapper extends HttpServletRequestWrapper {
     return byteCount;
   }
 
+  /**
+   * 模仿spring的DefaultServerRequestBuilder中的BodyInputStream
+   */
   private static class RepeatAbleInputStream extends ServletInputStream {
 
     private final InputStream delegate;
@@ -125,6 +140,4 @@ public class RepeatAbleRequestWrapper extends HttpServletRequestWrapper {
       return this.delegate.markSupported();
     }
   }
-
-
 }
