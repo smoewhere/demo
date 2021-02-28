@@ -3,6 +3,7 @@ package org.fan.demo.consumer;
 import org.apache.dubbo.config.ApplicationConfig;
 import org.apache.dubbo.config.ReferenceConfig;
 import org.apache.dubbo.config.RegistryConfig;
+import org.apache.dubbo.rpc.RpcContext;
 import org.fan.demo.common.service.HelloService;
 
 /**
@@ -37,6 +38,7 @@ public class ConsumerApi {
 // 和本地bean一样使用xxxService
     HelloService helloService = reference.get(); // 注意：此代理对象内部封装了所有通讯细节，对象较重，请缓存复用
     System.out.println(helloService.hello());
+    RpcContext.getContext().setAttachment("name", "jack");
     System.out.println(helloService.getAll());
 
   }
