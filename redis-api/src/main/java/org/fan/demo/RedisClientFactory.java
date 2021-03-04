@@ -16,7 +16,8 @@ public class RedisClientFactory {
   private static final RedisClient REDIS_CLIENT;
 
   static {
-    RedisURI redisUri = RedisURI.builder().withHost("127.0.0.1").withPort(6379).withPassword("lf0507".toCharArray())
+    RedisURI redisUri = RedisURI.builder().withHost("127.0.0.1").withPort(6379)
+        .withPassword("fsj@123456".toCharArray())
         .withTimeout(Duration.ofSeconds(5)).build();
     REDIS_CLIENT = RedisClient.create(redisUri);
   }
