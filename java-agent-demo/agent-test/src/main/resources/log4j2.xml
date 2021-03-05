@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="OFF" monitorInterval="30000">
+  <Properties>
+    <!--web项目中当前目录为tomcat等服务器的bin目录，可以自己改为工程目录-->
+    <property name="path">./logs</property>
+    <property name="projectName">security</property>
+  </Properties>
+  <appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <!--<YAMLLayout pattern="%t-%highlight{%d{HH:mm:ss.SSS} %-5level %logger{36}.%M() @%L - %msg%n}{FATAL=Bright Red, ERROR=Bright Magenta, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White}"/>-->
+      <!--<PatternLayout pattern="%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{-&#45;&#45;}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n${%xwEx}" />-->
+      <!--<PatternLayout charset="UTF-8"
+                     pattern="%highlight{%d{HH:mm:ss,SSS} }{FATAL=Bright Red, ERROR=Bright Magenta, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White}"/>-->
+      <PatternLayout charset="UTF-8">
+        <Pattern>
+          [%4sn] %d -- %-5level-- [%T]-[%t] %c: %msg%n%throwable
+        </Pattern>
+      </PatternLayout>
+    </Console>
+  </appenders>
+  <loggers>
+    <root level="debug">
+      <appender-ref ref="Console"/>
+    </root>
+  </loggers>
+</configuration>
