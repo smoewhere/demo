@@ -1,10 +1,13 @@
 package org.fan.demo;
 
+import io.lettuce.core.KeyValue;
 import io.lettuce.core.MapScanCursor;
 import io.lettuce.core.RedisClient;
 import io.lettuce.core.ScanCursor;
 import io.lettuce.core.api.sync.RedisCommands;
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 import org.junit.jupiter.api.AfterAll;
@@ -30,13 +33,13 @@ public class RedisHashTest {
 
   private static final String key = "test:hash:testHash";
 
-  @AfterAll
+  //@AfterAll
   static void afterAll() {
     COMMANDS.del(key);
     REDIS_CLIENT.shutdown();
   }
 
-  @BeforeAll
+  //@BeforeAll
   static void testAdd(){
     for (int i = 0; i < 200; i++) {
       COMMANDS.hset(key, "field" + i, "value" + i);
@@ -58,6 +61,22 @@ public class RedisHashTest {
     len = COMMANDS.hstrlen(key, "field0");
     log.info("[RedisHashTest.testHash] field:{} 对应的value长度为{}", "field0",len);
 
+  }
+
+  /**
+   * hash类型的批量操作
+   */
+  @Test
+  public void testHashM(){
+    HashMap<String, String> hashMap = new HashMap<>();
+    for (int i = 0; i < 200; i++) {
+      hashMap.put("field:" + i, "value:" + i);
+    }
+    COMMANDS.hmset(key, hashMap);
+    List<KeyValue<String, String>> valueList = COMMANDS.hmget(key, "field:1");
+    valueList.forEach(value->{
+      log.info("field is {}, value is {}", value.getKey(), value.getValue());
+    });
   }
 
   /**
