@@ -1,41 +1,45 @@
 package org.fan.config;
 
-import java.util.EnumSet;
-import javax.servlet.DispatcherType;
-import javax.servlet.FilterRegistration.Dynamic;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
-import org.springframework.web.WebApplicationInitializer;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import javax.servlet.Filter;
+import javax.servlet.ServletRegistration.Dynamic;
 import org.springframework.web.filter.CharacterEncodingFilter;
-import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
- * @version 1.0
+ * servlet3.0启动时会读取META-INF/services/javax.servlet.ServletContainerInitializer文件中的启动类
+ * 修改继承为AbstractAnnotationConfigDispatcherServletInitializer
+ *
+ * 详见spring-web包
+ * @version 1.1
  * @author: Fan
  * @date 2020.7.31 10:17
- * servlet3.0启动时会读取META-INF/services/javax.servlet.ServletContainerInitializer文件中的启动类
- * 详见spring-web包
+ *
  */
-public class WebInitializer implements WebApplicationInitializer {
+public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+
 
   @Override
-  public void onStartup(ServletContext servletContext) throws ServletException {
-    // 启动容器
-    AnnotationConfigWebApplicationContext context = new AnnotationConfigWebApplicationContext();
-    context.register(RootConfig.class);
-    context.setServletContext(servletContext);
-    context.refresh();
-    // 添加servlet
-    DispatcherServlet servlet = new DispatcherServlet(context);
-    ServletRegistration.Dynamic registration = servletContext.addServlet("app", servlet);
-    registration.setLoadOnStartup(1);
-    registration.addMapping("/*");
-    // 添加filter
-    CharacterEncodingFilter filter = new CharacterEncodingFilter("UTF-8",true);
-    Dynamic filterRegistration = servletContext.addFilter("encodingFilter", filter);
-    filterRegistration.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+  protected Class<?>[] getRootConfigClasses() {
+    return new Class[]{RootConfig.class};
+  }
 
+  @Override
+  protected Class<?>[] getServletConfigClasses() {
+    return new Class[0];
+  }
+
+  @Override
+  protected Filter[] getServletFilters() {
+    CharacterEncodingFilter filter = new CharacterEncodingFilter("UTF-8",true);
+    return new Filter[]{filter};
+  }
+
+  @Override
+  protected String[] getServletMappings() {
+    return new String[]{"/*"};
+  }
+
+  @Override
+  protected void customizeRegistration(Dynamic registration) {
   }
 }
