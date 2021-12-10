@@ -14,7 +14,7 @@
     <artifactId>hibernate</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
-        <log4j.version>2.13.3</log4j.version>
+        <log4j.version>2.15.0</log4j.version>
         <java.version>1.8</java.version>
         <slf4j.version>1.7.30</slf4j.version>
     </properties>
