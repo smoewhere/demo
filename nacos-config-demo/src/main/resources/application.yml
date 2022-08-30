@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: fan
+  cloud:
+    nacos:
+      config:
+        group: TEST_GROUP
+        server-addr: 127.0.0.1:8848
+        file-extension: yaml
+  config:
+    import:
+      - optional:nacos:fantest
+      - fann:asdasdhajsh
+logging:
+  config: classpath:log4j2.yml

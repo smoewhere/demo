@@ -1,0 +1,7 @@
+# ConfigData Location Resolvers
+org.springframework.boot.context.config.ConfigDataLocationResolver=\
+org.fan.demo.components.FanConfigDataLocationResolver
+
+# ConfigData Loaders
+org.springframework.boot.context.config.ConfigDataLoader=\
+org.fan.demo.components.FanConfigDataLoader
