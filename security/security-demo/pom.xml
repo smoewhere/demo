@@ -13,7 +13,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <mysql.driver.version>8.0.21</mysql.driver.version>
+    <mysql.driver.version>8.0.28</mysql.driver.version>
     <mybatisplus.version>3.4.0</mybatisplus.version>
     <druid.version>1.2.1</druid.version>
     <oshi.version>3.6.1</oshi.version>
