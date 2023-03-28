@@ -14,7 +14,7 @@ premain 方法，从字面上理解，就是运行在 main 函数之前的的类
 在命令行输入 `java`可以看到相应的参数，其中有 和 java agent相关的：
 
 ```shell
-Copy-agentlib:<libname>[=<选项>] 加载本机代理库 <libname>, 例如 -agentlib:hprof
+-agentlib:<libname>[=<选项>] 加载本机代理库 <libname>, 例如 -agentlib:hprof
 	另请参阅 -agentlib:jdwp=help 和 -agentlib:hprof=help
 -agentpath:<pathname>[=<选项>]
 	按完整路径名加载本机代理库
